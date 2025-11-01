@@ -1,0 +1,39 @@
+name: polleria4
+
+services:
+  db:
+    image: postgres:15
+    container_name: polleria_db
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: polleria_db
+    ports:
+      - "5433:5432"                  # host:container
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d polleria_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  backend:
+    container_name: polleria_backend
+    build:
+      context: ./backend            # carpeta backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env.docker       # 👈 AQUÍ van tus secretos (no se sube al repo)
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"                 # http://localhost:3000/api/...
+    # Si tu Dockerfile ya define CMD, elimina esta línea:
+    command: ["node","dist/main.js"]
+    restart: unless-stopped
+
+volumes:
+  dbdata:

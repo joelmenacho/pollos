@@ -1,0 +1,49 @@
+# Node/Nest
+node_modules/
+dist/
+*.log
+
+# React Native (evita el error android/nul por ahora)
+frontend/android/
+frontend/ios/
+
+# Builds / caches
+.build/
+.gradle/
+.cxx/
+*.keystore
+*.hprof
+
+# Otros
+*.zip
+.DS_Store
+# Archivos de Windows reservados (en cualquier carpeta)
+**/NUL
+**/nul
+**/CON
+**/PRN
+**/AUX
+**/COM1
+**/COM2
+**/COM3
+**/COM4
+**/COM5
+**/COM6
+**/COM7
+**/COM8
+**/COM9
+**/LPT1
+**/LPT2
+**/LPT3
+**/LPT4
+**/LPT5
+**/LPT6
+**/LPT7
+**/LPT8
+**/LPT9
+
+# No subir secretos/artefactos
+backend/.env
+frontend/.env
+*.zip
+backend/.env.docker
