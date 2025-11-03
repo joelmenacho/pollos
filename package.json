@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@react-native-community/cli": "^12.3.7"
+  }
+}
