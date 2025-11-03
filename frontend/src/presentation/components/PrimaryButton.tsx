@@ -8,6 +8,6 @@ export default function PrimaryButton({label, onPress, disabled}:{label:string; 
   );
 }
 const s=StyleSheet.create({
-  btn:{backgroundColor:'#02A86B',padding:14,borderRadius:12,alignItems:'center'},
+  btn:{backgroundColor:'#A90D1A',padding:14,borderRadius:12,alignItems:'center'},
   text:{color:'#fff',fontWeight:'700'}
 });
