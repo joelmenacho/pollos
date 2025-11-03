@@ -3,8 +3,8 @@ import { DataSource } from "typeorm";
 import * as bcrypt from "bcrypt";
 import { User } from "./entities/user.entity";
 import { Product } from "./entities/product.entity";
-import { Order } from "./entities/order.entity"; // 👈 agrega
-import { OrderItem } from "./entities/order-item.entity"; // 👈 agrega
+import { Order } from "./entities/order.entity";
+import { OrderItem } from "./entities/order-item.entity";
 
 const ds = new DataSource({
   type: "postgres",
@@ -29,9 +29,9 @@ async function run() {
   if (!admin) {
     admin = userRepo.create({
       email: adminEmail,
-      password: await bcrypt.hash("admin123", 10), // tu entity usa "password"
+      password: await bcrypt.hash("admin123", 10),
       name: "Administrador",
-      role: "ADMIN", // coincide con tu enum/default 'USER' | 'ADMIN'
+      role: "ADMIN",
     });
     await userRepo.save(admin);
     console.log("✅ Admin creado:", adminEmail, "(pass: admin123)");
@@ -39,15 +39,29 @@ async function run() {
     console.log("ℹ️ Admin ya existe:", adminEmail);
   }
 
-  // Productos demo
+  // Productos demo con imagen
   const count = await productRepo.count();
   if (count === 0) {
     const items = [
-      { name: "Broaster", price: 20, description: "Con papas", active: true },
+      {
+        name: "1 pollo entero",
+        price: 59,
+        description: "Con papas",
+        image: "https://peruretail.sfo3.cdn.digitaloceanspaces.com/wp-content/uploads/pollo-a-la-brasa.jpg",
+        active: true,
+      },
       {
         name: "1/4 de Pollo",
         price: 18,
-        description: "Con ensalada",
+        description: "Clásico con papas y ensalada",
+        image: "https://www.perudelights.com/wp-content/uploads/2012/03/pollo1.jpg",
+        active: true,
+      },
+      {
+        name: "1/2 Pollo a la Brasa",
+        price: 39.9,
+        description: "Clásico con papas y ensalada",
+        image: "https://emofly.b-cdn.net/hbd_exvhac6ayb3ZKT/width:2048/plain/https://storage.googleapis.com/takeapp/media/cm33nnufy00080cmj0hq48xsz.jpg",
         active: true,
       },
     ].map((dto) => productRepo.create(dto));
@@ -62,9 +76,7 @@ async function run() {
 }
 
 run()
-  .then(() => {
-    console.log("✅ Seed listo");
-  })
+  .then(() => console.log("✅ Seed listo"))
   .catch((e) => {
     console.error("❌ Error en seed:", e);
     process.exit(1);
